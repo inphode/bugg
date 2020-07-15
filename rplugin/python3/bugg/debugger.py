@@ -39,7 +39,7 @@ class __Debugger:
             self.add_breakpoint(buffer, line)
 
     def start(self):
-        port = options.get('xdebug_port', 9000)
+        port = options.get('xdebug_port')
         logger.log('Waiting for connection on port ' + str(port))
         neo.vim.out_write('Waiting for connection on port ' + str(port) + '\n')
         result = dbgp.listen(port)
