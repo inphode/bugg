@@ -35,6 +35,10 @@ class Bugg(object):
     def BuggStop(self):
         debugger.stop()
 
+    @pynvim.command('BuggRun')
+    def BuggRun(self):
+        debugger.run()
+
     @pynvim.command('BuggSetBreakpoint', nargs='*')
     def BuggSetBreakpoint(self, args):
         buffer = neo.vim.current.buffer

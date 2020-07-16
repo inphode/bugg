@@ -40,6 +40,7 @@ if exists('g:bugg_enable_default_bindings')
     nmap gbl :FzfBuggLog<cr>
     nmap gbs :BuggStart<cr>
     nmap gbS :BuggStop<cr>
+    nmap gbr :BuggRun<cr>
 
 endif
 

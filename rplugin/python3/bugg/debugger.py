@@ -23,6 +23,12 @@ class __Debugger:
 
         self.breakpoints[key].show()
 
+        args = '-t line -f "file://{}" -n {}'.format(
+            self.breakpoints[key].file,
+            self.breakpoints[key].line
+        )
+        dbgp.command('breakpoint_set', args, silent=True)
+
     def remove_breakpoint(self, buffer, line):
         key = '{}__{}'.format(str(buffer.number), str(line))
 
@@ -46,11 +52,21 @@ class __Debugger:
         logger.log(result)
         neo.vim.out_write(result + '\n')
 
+        response = dbgp.command('status')
+        logger.log('Status reported as ' + response.get('status'))
+
+        for breakpoint in self.breakpoints.values():
+            args = '-t line -f "file://{}" -n {}'.format(breakpoint.file, breakpoint.line)
+            dbgp.command('breakpoint_set', args)
+
     def stop(self):
         logger.log('Closing client connection')
         neo.vim.out_write('Closing client connection\n')
         result = dbgp.close()
         logger.log(result)
         neo.vim.out_write(result + '\n')
+
+    def run(self):
+        dbgp.command('run')
 
 debugger = __Debugger()
