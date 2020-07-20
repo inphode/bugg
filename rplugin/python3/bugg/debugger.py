@@ -23,11 +23,12 @@ class __Debugger:
 
         self.breakpoints[key].show()
 
-        args = '-t line -f "file://{}" -n {}'.format(
-            self.breakpoints[key].file,
-            self.breakpoints[key].line
-        )
-        dbgp.command('breakpoint_set', args, silent=True)
+        if dbgp.is_connected:
+            args = '-t line -f "file://{}" -n {}'.format(
+                self.breakpoints[key].file,
+                self.breakpoints[key].line
+            )
+            dbgp.command('breakpoint_set', args)
 
     def remove_breakpoint(self, buffer, line):
         key = '{}__{}'.format(str(buffer.number), str(line))

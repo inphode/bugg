@@ -71,12 +71,19 @@ class Response:
 
     def __init__(self, raw_response):
         self.text = raw_response
-        self.xml = None
+        self._xml = None
 
     def get(self, key):
-        if self.xml is None:
-            self.xml = ET.fromstring(self.text)
-        return self.xml.get(key)
+        if self._xml is None:
+            self._xml = ET.fromstring(self.text)
+        return self._xml.get(key)
+
+
+class StatusResponse(Response):
+
+    @property
+    def status(self):
+        return self.get('status')
 
 
 class __Dbgp:
@@ -136,9 +143,8 @@ class __Dbgp:
             self.start_file,
         ))
 
-    def command(self, command, args=None, response=Response, silent=False):
+    def command(self, command, args=None, response=Response):
         if not self.is_connected:
-            if silent: return
             raise RuntimeError('Cannot send command while client not connected')
 
         self.trans_id += 1
@@ -153,5 +159,8 @@ class __Dbgp:
         logger.log('Got response: ' + raw_response)
 
         return response(raw_response)
+
+    def status_command(self, silent=False):
+        return self.command('status', response=StatusResponse)
 
 dbgp = __Dbgp()

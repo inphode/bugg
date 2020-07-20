@@ -7,7 +7,7 @@ let g:loaded_bugg = 1
 
 " === Optional FZF support
 
-if exists('g:loaded_fzf')
+if exists('g:bugg_enable_fzf_support')
 
     function! s:bugg_log_details(lines)
         call g:BuggLogDetails(a:lines)
@@ -23,12 +23,26 @@ endif
 
 " === Highlight groups and signs
 
-highlight def link BuggBreakpointLine Search
-highlight def link BuggBreakpointNum Search
-highlight def link BuggBreakpointText ErrorMsg
+highlight BuggBreakpointLine guibg=#111133
+highlight BuggBreakpointSign guibg=#111133 guifg=red
 
-sign define BuggBreakpoint linehl=BuggBreakpointLine numhl=BuggBreakpointNum texthl=BuggBreakpointText text=*>
-sign define BuggBreakpointCondition linehl=BuggBreakpointLine numhl=BuggBreakpointNum texthl=BuggBreakpointText text=?>
+sign define BuggBreakpoint
+        \ linehl=BuggBreakpointLine
+        \ numhl=BuggBreakpointLine
+        \ texthl=BuggBreakpointSign
+        \ text=●>
+
+sign define BuggBreakpointCondition
+        \ linehl=BuggBreakpointLine
+        \ numhl=BuggBreakpointLine
+        \ texthl=BuggBreakpointSign
+        \ text=●?
+
+sign define BuggBreakpointHitCount
+        \ linehl=BuggBreakpointLine
+        \ numhl=BuggBreakpointLine
+        \ texthl=BuggBreakpointSign
+        \ text=●#
 
 
 " === An optional default set of bindings
